@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.io.Serializable;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -139,4 +140,29 @@ public class Documento implements Serializable {
     }
     return true;
   }
+
+public double getSomaQuadradosPesos() {
+	// TODO Auto-generated method stub
+	return 0;
+}
+
+public void setFrequenciaMaxima(long l) {
+	// TODO Auto-generated method stub
+	
+}
+
+public void setSomaQuadradosPesos(long l) {
+	// TODO Auto-generated method stub
+	
+}
+
+public List<IndiceInvertido> getIndiceInvertido() {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+public int getFrequenciaMaxima() {
+	// TODO Auto-generated method stub
+	return 0;
+}
 }
