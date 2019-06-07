@@ -67,18 +67,7 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-        
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-        </dependency>
-        <dependency>
-		    <groupId>org.hibernate</groupId>
-		    <artifactId>hibernate-core</artifactId>
-		    <version>4.1.4.Final</version>
-		</dependency>
     </dependencies>
-    
 
     <build>
         <plugins>
@@ -91,7 +80,7 @@
                         -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8080
                     </jvmArguments>
                 </configuration>
-            </plugin>
+           </plugin>
         </plugins>
     </build>
 </project>

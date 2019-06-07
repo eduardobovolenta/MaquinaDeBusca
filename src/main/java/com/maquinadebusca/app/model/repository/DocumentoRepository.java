@@ -6,12 +6,8 @@ import com.maquinadebusca.app.model.Documento;
 
 public interface DocumentoRepository extends JpaRepository<Documento, Long> {
 
-    @Override
-    List<Documento> findAll();
+  @Override
+  List<Documento> findAll ();
 
-    Documento findById(long id);
-
-    @Override
-    Documento save(Documento documento);
-
+  Documento findById (long id);
 }
