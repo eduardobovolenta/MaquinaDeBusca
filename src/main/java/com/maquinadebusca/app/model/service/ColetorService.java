@@ -173,4 +173,8 @@ public class ColetorService {
   public List<Link> encontrarLinkUrl(String url) {
 		return lr.findByUrlIgnoreCaseContaining(url);
 	}
+  
+  public List<Link> listarEmOrdemAlfabetica() {
+		return lr.getInLexicalOrder();
+	}
 }

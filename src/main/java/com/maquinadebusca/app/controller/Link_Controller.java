@@ -124,7 +124,7 @@ public class Link_Controller {
 		return resposta;
 	}
 	
-	@PostMapping(value = "/inserirLinks", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PostMapping(value = "/inserir-links", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<Object> inserirLinks(@RequestBody @Valid Iterable<Link> links, BindingResult resultado) {
 		ResponseEntity<Object> resposta = null;
 		try {
@@ -155,6 +155,18 @@ public class Link_Controller {
 	public ResponseEntity<Object> encontrarLink(@PathVariable(value = "url") String url) {
 		ResponseEntity<Object> resposta = null;
 		List<Link> links = coletorService.encontrarLinkUrl(url);
+		if (!links.isEmpty()) {
+			resposta = new ResponseEntity<Object>(links, HttpStatus.OK);
+		} else {
+			resposta = new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
+		}
+		return resposta;
+	}
+	
+	@GetMapping(value = "/links/ordemAlfabetica", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<Object> listarEmOrdemAlfabetica() {
+		ResponseEntity<Object> resposta = null;
+		List<Link> links = coletorService.listarEmOrdemAlfabetica();
 		if (!links.isEmpty()) {
 			resposta = new ResponseEntity<Object>(links, HttpStatus.OK);
 		} else {

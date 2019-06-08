@@ -2,6 +2,8 @@ package com.maquinadebusca.app.model.repository;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
 import com.maquinadebusca.app.model.Link;
 
 public interface LinkRepository extends JpaRepository<Link, Long> {
@@ -10,6 +12,9 @@ public interface LinkRepository extends JpaRepository<Link, Long> {
   List<Link> findAll ();
   
   List<Link> findByUrlIgnoreCaseContaining(String url);
+  
+  @Query(value = "SELECT * FROM link ORDER BY url", nativeQuery = true)
+	List<Link> getInLexicalOrder();
 
   Link findById (long id);
 
