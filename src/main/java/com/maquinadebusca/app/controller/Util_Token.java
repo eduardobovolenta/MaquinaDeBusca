@@ -2,7 +2,7 @@ package com.maquinadebusca.app.controller;
 
 import io.jsonwebtoken.Jwts;
 
-public class Util {
+public class Util_Token {
 
 	private static final String SECRET = "MySecreteApp";
 	private static final String TOKEN_PREFIX = "Bearer";

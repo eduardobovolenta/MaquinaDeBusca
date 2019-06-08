@@ -25,7 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @RestController
-public class CadastroUsuarioController {
+public class Usuario_Controller {
 
     @Autowired
     UsuarioService usuarioService;
@@ -43,7 +43,7 @@ public class CadastroUsuarioController {
  				resposta = new ResponseEntity(
  						new Mensagem("erro", "Dados informados errados."),
  						HttpStatus.INTERNAL_SERVER_ERROR);
- 			} else if (!usuarioService.verificaPermissao(Util.getUser(token), HttpMethod.POST)) {
+ 			} else if (!usuarioService.verificaPermissao(Util_Token.getUser(token), HttpMethod.POST)) {
  				resposta = new ResponseEntity<Object>(
  						new Mensagem("erro", "Sem permissão para executar esta ação."),
  						HttpStatus.NON_AUTHORITATIVE_INFORMATION);

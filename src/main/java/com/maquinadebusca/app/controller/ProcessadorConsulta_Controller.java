@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping ("/processador") // URL: http://localhost:8080/processador
-public class ProcessadorConsulta {
+public class ProcessadorConsulta_Controller {
 
   @Autowired
   ProcessadorConsultaService pcs;
