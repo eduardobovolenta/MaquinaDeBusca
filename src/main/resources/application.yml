@@ -1,0 +1,6 @@
+okta:  
+  oauth2: 
+    issuer: https://dev-309546.okta.com/oauth2/default  
+    clientId: 0oap53rynifWznmPi356
+    clientSecret: u_moa6_AoYThecFE6weWY15GY0ozj1KIDTzSCTs_
+    rolesClaim: groups

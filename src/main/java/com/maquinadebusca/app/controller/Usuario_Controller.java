@@ -43,12 +43,12 @@ public class Usuario_Controller {
  				resposta = new ResponseEntity(
  						new Mensagem("erro", "Dados informados errados."),
  						HttpStatus.INTERNAL_SERVER_ERROR);
- 			} else if (!usuarioService.verificaPermissao(Util_Token.getUser(token), HttpMethod.POST)) {
- 				resposta = new ResponseEntity<Object>(
- 						new Mensagem("erro", "Sem permissão para executar esta ação."),
- 						HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+// 			} else if (!usuarioService.verificaPermissao(Util_Token.getUser(token), HttpMethod.POST)) {
+// 				resposta = new ResponseEntity<Object>(
+// 						new Mensagem("erro", "Sem permissão para executar esta ação."),
+// 						HttpStatus.NON_AUTHORITATIVE_INFORMATION);
  			} else {
- 				user = usuarioService.criarUsuario(user);
+ 				//user = usuarioService.criarUsuario(user);
  				if ((user != null) && (user.getId() > 0)) {
  					resposta = new ResponseEntity<Object>(user, HttpStatus.OK);
  				} else {

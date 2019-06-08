@@ -156,4 +156,16 @@ public class ColetorService {
     Link link = lr.findById (id);
     return link;
   }
+  
+  public List<Link> salvarLinks(Iterable<Link> links) throws Exception {
+		List<Link> l = null;
+		try {
+			l = lr.saveAll(links);
+		} catch (Exception e) {
+			System.out.println("\n>>> Não foi possível salvar o link informado no banco de dados.\n");
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		}
+		return l;
+	}
 }

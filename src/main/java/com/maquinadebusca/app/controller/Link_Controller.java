@@ -23,18 +23,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class Link_Controller {
 
 	@Autowired
-	ColetorService cs;
+	ColetorService coletorService;
 
 	// URL: http://localhost:8080/coletor/link
 	@GetMapping(value = "/link", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity listarLink() {
-		return new ResponseEntity(cs.getLink(), HttpStatus.OK);
+		return new ResponseEntity(coletorService.getLink(), HttpStatus.OK);
 	}
 
 	// Request for: http://localhost:8080/coletor/link/{id}
 	@GetMapping(value = "/link/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity listarLink(@PathVariable(value = "id") Long id) {
-		return new ResponseEntity(cs.getLink(id), HttpStatus.OK);
+		return new ResponseEntity(coletorService.getLink(id), HttpStatus.OK);
 	}
 
 	// Request for: http://localhost:8080/coletor/link
@@ -46,7 +46,7 @@ public class Link_Controller {
 					new Mensagem("erro", "os dados sobre o link  não foram informados corretamente"),
 					HttpStatus.BAD_REQUEST);
 		} else {
-			link = cs.salvarLink(link);
+			link = coletorService.salvarLink(link);
 			if ((link != null) && (link.getId() > 0)) {
 				resposta = new ResponseEntity(link, HttpStatus.OK);
 			} else {
@@ -67,7 +67,7 @@ public class Link_Controller {
 					new Mensagem("erro", "os dados sobre o link  não foram informados corretamente"),
 					HttpStatus.BAD_REQUEST);
 		} else {
-			link = cs.atualizarLink(link);
+			link = coletorService.atualizarLink(link);
 			if ((link != null) && (link.getId() > 0)) {
 				resposta = new ResponseEntity(link, HttpStatus.OK);
 			} else {
@@ -88,7 +88,7 @@ public class Link_Controller {
 					new Mensagem("erro", "os dados sobre o link  não foram informados corretamente"),
 					HttpStatus.BAD_REQUEST);
 		} else {
-			link = cs.removerLink(link);
+			link = coletorService.removerLink(link);
 			if (link != null) {
 				resposta = new ResponseEntity(new Mensagem("sucesso", "link removido com suceso"), HttpStatus.OK);
 			} else {
@@ -109,7 +109,7 @@ public class Link_Controller {
 					new Mensagem("erro", "os dados sobre o link  não foram informados corretamente"),
 					HttpStatus.BAD_REQUEST);
 		} else {
-			boolean resp = cs.removerLink(id);
+			boolean resp = coletorService.removerLink(id);
 			if (resp == true) {
 				resposta = new ResponseEntity(new Mensagem("sucesso", "link removido com suceso"), HttpStatus.OK);
 			} else {
@@ -118,6 +118,33 @@ public class Link_Controller {
 						HttpStatus.NOT_ACCEPTABLE);
 			}
 		}
+		return resposta;
+	}
+	
+	@PostMapping(value = "/addLinks", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<Object> inserirLinks(@RequestBody @Valid Iterable<Link> links, BindingResult resultado) {
+		ResponseEntity<Object> resposta = null;
+		try {
+			if (resultado.hasErrors()) {
+				resposta = new ResponseEntity<Object>(
+						new Mensagem("erro", "Os dados não foram informados corretamente!"),
+						HttpStatus.INTERNAL_SERVER_ERROR);
+			} else {
+				Iterable<Link> l = coletorService.salvarLinks(links);
+				if (l != null) {
+					resposta = new ResponseEntity<Object>(l, HttpStatus.OK);
+				} else {
+					resposta = new ResponseEntity<Object>(
+							new Mensagem("erro", "não foi possível inserir o link informado no banco de dados"),
+							HttpStatus.INTERNAL_SERVER_ERROR);
+				}
+			}
+		} catch (Exception e) {
+			resposta = new ResponseEntity<Object>(
+					new Mensagem("erro", "não foi possível inserir o link informado no banco de dados"),
+					HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
 		return resposta;
 	}
 }

@@ -33,10 +33,6 @@ public class Usuario implements Serializable {
     @NotBlank
 	@Column(nullable=false) 
     private String senha;
-    
-    @NotBlank
-	@Column(nullable=false) 
-	private String permissao;
 
     public Long getId() {
         return id;
@@ -61,9 +57,5 @@ public class Usuario implements Serializable {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-    
-    public String getPermissao() {
-		return permissao;
-	}
     
 }
