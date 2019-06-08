@@ -103,8 +103,12 @@
 			<version>2.9.2</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
 
-	</dependencies>
+</dependencies>
 
 	<build>
 		<plugins>

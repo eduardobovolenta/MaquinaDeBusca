@@ -2,6 +2,9 @@ package com.maquinadebusca.app.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+
 import java.util.Set;
 import java.util.HashSet;
 import java.io.Serializable;
@@ -36,6 +39,7 @@ public class Link implements Serializable {
   private String url;
 
   @Basic
+  @JsonDeserialize (using = LocalDateTimeDeserializer.class)
   private LocalDateTime ultimaColeta;
 
   @ManyToMany (
