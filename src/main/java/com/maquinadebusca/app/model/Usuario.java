@@ -3,6 +3,8 @@ package com.maquinadebusca.app.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.io.Serializable;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,10 +13,7 @@ import javax.persistence.Lob;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
-/**
- *
- * @author Lucas Silva
- */
+
 @Entity
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
@@ -31,8 +30,13 @@ public class Usuario implements Serializable {
     @NotEmpty
     private String login;
 
-    @NotEmpty
+    @NotBlank
+	@Column(nullable=false) 
     private String senha;
+    
+    @NotBlank
+	@Column(nullable=false) 
+	private String permissao;
 
     public Long getId() {
         return id;
@@ -57,4 +61,9 @@ public class Usuario implements Serializable {
     public void setSenha(String senha) {
         this.senha = senha;
     }
+    
+    public String getPermissao() {
+		return permissao;
+	}
+    
 }
