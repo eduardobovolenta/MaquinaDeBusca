@@ -6,6 +6,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.maquinadebusca.app.model.service.ColetorService;
+
+import java.util.List;
+
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -121,7 +124,7 @@ public class Link_Controller {
 		return resposta;
 	}
 	
-	@PostMapping(value = "/addLinks", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PostMapping(value = "/inserirLinks", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<Object> inserirLinks(@RequestBody @Valid Iterable<Link> links, BindingResult resultado) {
 		ResponseEntity<Object> resposta = null;
 		try {
@@ -145,6 +148,18 @@ public class Link_Controller {
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
+		return resposta;
+	}
+	
+	@GetMapping(value = "/encontrar/{url}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<Object> encontrarLink(@PathVariable(value = "url") String url) {
+		ResponseEntity<Object> resposta = null;
+		List<Link> links = coletorService.encontrarLinkUrl(url);
+		if (!links.isEmpty()) {
+			resposta = new ResponseEntity<Object>(links, HttpStatus.OK);
+		} else {
+			resposta = new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
+		}
 		return resposta;
 	}
 }

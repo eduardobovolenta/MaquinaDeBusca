@@ -2,6 +2,10 @@ package com.maquinadebusca.app.model.service;
 
 import com.maquinadebusca.app.model.Usuario;
 import com.maquinadebusca.app.model.repository.UsuarioRepository;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
@@ -43,6 +47,15 @@ public class UsuarioService {
 		}
 		
 		return null;
+	}
+    
+    public List<Usuario> obterUsuarios() {
+		Iterable<Usuario> usuarios = _usuarioRepository.findAll();
+		List<Usuario> resposta = new ArrayList<Usuario>();
+		for (Usuario usuario : usuarios) {
+			resposta.add(usuario);
+		}
+		return resposta;
 	}
 
 

@@ -168,4 +168,9 @@ public class ColetorService {
 		}
 		return l;
 	}
+  
+  
+  public List<Link> encontrarLinkUrl(String url) {
+		return lr.findByUrlIgnoreCaseContaining(url);
+	}
 }

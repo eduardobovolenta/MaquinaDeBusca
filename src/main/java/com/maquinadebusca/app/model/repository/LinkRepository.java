@@ -8,6 +8,8 @@ public interface LinkRepository extends JpaRepository<Link, Long> {
 
   @Override
   List<Link> findAll ();
+  
+  List<Link> findByUrlIgnoreCaseContaining(String url);
 
   Link findById (long id);
 
