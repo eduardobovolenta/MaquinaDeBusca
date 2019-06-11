@@ -5,15 +5,15 @@ import java.util.Objects;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class IdIndiceInvertido implements Serializable {
+public class IdIndiceInvertidoModel implements Serializable {
 
     private Long idTermo;
     private Long idDocumento;
 
-    public IdIndiceInvertido() {
+    public IdIndiceInvertidoModel() {
     }
 
-    public IdIndiceInvertido(Long idTermo, Long idDocumento) {
+    public IdIndiceInvertidoModel(Long idTermo, Long idDocumento) {
         this.idTermo = idTermo;
         this.idDocumento = idDocumento;
     }
@@ -53,7 +53,7 @@ public class IdIndiceInvertido implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final IdIndiceInvertido other = (IdIndiceInvertido) obj;
+        final IdIndiceInvertidoModel other = (IdIndiceInvertidoModel) obj;
         if (!Objects.equals(this.idTermo, other.idTermo)) {
             return false;
         }

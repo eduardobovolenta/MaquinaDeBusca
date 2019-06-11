@@ -1,9 +1,9 @@
 package com.maquinadebusca.app.model.service;
 
-import com.maquinadebusca.app.model.Consulta;
-import com.maquinadebusca.app.model.EntradaRanking;
-import com.maquinadebusca.app.model.IndiceInvertido;
-import com.maquinadebusca.app.model.TermoConsulta;
+import com.maquinadebusca.app.model.ConsultaModel;
+import com.maquinadebusca.app.model.EntradaRankingModel;
+import com.maquinadebusca.app.model.IndiceInvertidoModel;
+import com.maquinadebusca.app.model.TermoConsultaModel;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.LinkedList;
@@ -27,64 +27,64 @@ public class ProcessadorConsultaService {
     @Autowired
     IndexadorService is;
 
-    private Map<String, EntradaRanking> mergeListasInvertidas = new Hashtable();
+    private Map<String, EntradaRankingModel> mergeListasInvertidas = new Hashtable();
 
     public ProcessadorConsultaService() {
     }
 
-    public Consulta processarConsulta(String textoConsulta) {
-        Consulta consulta = new Consulta(textoConsulta);
+    public ConsultaModel processarConsulta(String textoConsulta) {
+        ConsultaModel consulta = new ConsultaModel(textoConsulta);
         this.iniciarTermosConsulta(consulta);
-        //this.processarListasInvertidas(consulta);
+        this.processarListasInvertidas(consulta);
         this.computarSimilaridade();
         consulta.setRanking(this.getRanking());
         return consulta;
     }
 
-    public void iniciarTermosConsulta(Consulta consulta) {
+    public void iniciarTermosConsulta(ConsultaModel consulta) {
         String visaoConsulta = consulta.getVisao();
         String[] termos = visaoConsulta.split(" ");
         for (String termo : termos) {
             if (!termo.equals("")) {
                 int f = is.frequencia(termo, termos);
                 double idf = ts.getIdf(termo);
-                TermoConsulta termoConsulta = new TermoConsulta(termo, f, idf);
+                TermoConsultaModel termoConsulta = new TermoConsultaModel(termo, f, idf);
                 consulta.adicionarTermoConsulta(termoConsulta);
             }
         }
     }
 
-//    public void processarListasInvertidas(Consulta consulta) {
-//        List<TermoConsulta> termosConsulta = consulta.getTermosConsulta();
-//        for (TermoConsulta termoConsulta : termosConsulta) {
-//            List<IndiceInvertido> entradasIndiceInvertido = iis.getEntradasIndiceInvertido(termoConsulta.getTexto());
-//            for (IndiceInvertido entradaIndiceInvertido : entradasIndiceInvertido) {
-//                if (this.mergeListasInvertidas.containsKey(entradaIndiceInvertido.getDocumento().getUrl())) {
-//                    EntradaRanking entradaRanking = this.mergeListasInvertidas.get(entradaIndiceInvertido.getDocumento().getUrl());
-//                    entradaRanking.adicionarProdutoPesos(termoConsulta.getPeso() * entradaIndiceInvertido.getPeso());
-//                } else {
-//                    EntradaRanking entradaRanking = new EntradaRanking();
-//                    entradaRanking.setUrl(entradaIndiceInvertido.getDocumento().getUrl());
-//                    entradaRanking.adicionarProdutoPesos(termoConsulta.getPeso() * entradaIndiceInvertido.getPeso());
-//                    entradaRanking.setSomaQuadradosPesosDocumento(entradaIndiceInvertido.getDocumento().getSomaQuadradosPesos());
-//                    entradaRanking.setSomaQuadradosPesosConsulta(consulta.getSomaQuadradosPesos());
-//                    this.mergeListasInvertidas.put(entradaIndiceInvertido.getDocumento().getUrl(), entradaRanking);
-//                }
-//            }
-//        }
-//    }
+    public void processarListasInvertidas(ConsultaModel consulta) {
+        List<TermoConsultaModel> termosConsulta = consulta.getTermosConsulta();
+        for (TermoConsultaModel termoConsulta : termosConsulta) {
+            List<IndiceInvertidoModel> entradasIndiceInvertido = iis.getEntradasIndiceInvertido(termoConsulta.getTexto());
+            for (IndiceInvertidoModel entradaIndiceInvertido : entradasIndiceInvertido) {
+                if (this.mergeListasInvertidas.containsKey(entradaIndiceInvertido.getDocumento().getUrl())) {
+                    EntradaRankingModel entradaRanking = this.mergeListasInvertidas.get(entradaIndiceInvertido.getDocumento().getUrl());
+                    entradaRanking.adicionarProdutoPesos(termoConsulta.getPeso() * entradaIndiceInvertido.getPeso());
+                } else {
+                    EntradaRankingModel entradaRanking = new EntradaRankingModel();
+                    entradaRanking.setUrl(entradaIndiceInvertido.getDocumento().getUrl());
+                    entradaRanking.adicionarProdutoPesos(termoConsulta.getPeso() * entradaIndiceInvertido.getPeso());
+                    entradaRanking.setSomaQuadradosPesosDocumento(entradaIndiceInvertido.getDocumento().getSomaQuadradosPesos());
+                    entradaRanking.setSomaQuadradosPesosConsulta(consulta.getSomaQuadradosPesos());
+                    this.mergeListasInvertidas.put(entradaIndiceInvertido.getDocumento().getUrl(), entradaRanking);
+                }
+            }
+        }
+    }
 
     public void computarSimilaridade() {
-        Collection<EntradaRanking> ranking = this.mergeListasInvertidas.values();
-        for (EntradaRanking entradaRanking : ranking) {
+        Collection<EntradaRankingModel> ranking = this.mergeListasInvertidas.values();
+        for (EntradaRankingModel entradaRanking : ranking) {
             entradaRanking.computarSimilaridade();
         }
     }
 
-    public List<EntradaRanking> getRanking() {
-        List<EntradaRanking> resp = new LinkedList();
-        Collection<EntradaRanking> ranking = this.mergeListasInvertidas.values();
-        for (EntradaRanking entradaRanking : ranking) {
+    public List<EntradaRankingModel> getRanking() {
+        List<EntradaRankingModel> resp = new LinkedList();
+        Collection<EntradaRankingModel> ranking = this.mergeListasInvertidas.values();
+        for (EntradaRankingModel entradaRanking : ranking) {
             resp.add(entradaRanking);
         }
         return resp;

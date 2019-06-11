@@ -13,42 +13,42 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.maquinadebusca.app.model.Link;
+import com.maquinadebusca.app.model.LinkModel;
 
-public interface LinkRepository extends JpaRepository<Link, Long> {
+public interface LinkRepository extends JpaRepository<LinkModel, Long> {
 
 	@Override
-	List<Link> findAll();
+	List<LinkModel> findAll();
 
-	List<Link> findByUrlIgnoreCaseContaining(String url);
+	List<LinkModel> findByUrlIgnoreCaseContaining(String url);
 
 	@Query(value = "SELECT * FROM link ORDER BY url", nativeQuery = true)
-	List<Link> getInLexicalOrder();
+	List<LinkModel> getInLexicalOrder();
 
-	Link findById(long id);
+	LinkModel findById(long id);
 
-	Link findByUrl(String url);
-
-	@Override
-	Link save(Link link);
+	LinkModel findByUrl(String url);
 
 	@Override
-	void delete(Link link);
+	LinkModel save(LinkModel link);
+
+	@Override
+	void delete(LinkModel link);
 
 	@Override
 	void deleteById(Long id);
 
 	@Query(value = "SELECT * FROM link", nativeQuery = true)
-	public Slice<Link> getPage(Pageable pageable);
+	public Slice<LinkModel> getPage(Pageable pageable);
 
 	@Query(value = "SELECT * FROM link WHERE id between ?1 and ?2", nativeQuery = true)
-	List<Link> findLinkByIdRange(Long id1, Long id2);
+	List<LinkModel> findLinkByIdRange(Long id1, Long id2);
 
 	@Query(value = "SELECT COUNT(*) FROM Link WHERE id between :identificador1 and :identificador2", nativeQuery = true)
 	Long countLinkByIdRange(@Param("identificador1") Long id1, @Param("identificador2") Long id2);
 
 	@Query(value = "SELECT * FROM link WHERE ultimaColeta between :identificador1 and :identificador2", nativeQuery = true)
-	List<Link> LinkByDateColetaRange(@Param("identificador1") Date date1, @Param("identificador2") Date date2);
+	List<LinkModel> LinkByDateColetaRange(@Param("identificador1") Date date1, @Param("identificador2") Date date2);
 
 	@Transactional
 	@Modifying

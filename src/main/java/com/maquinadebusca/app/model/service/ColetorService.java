@@ -1,9 +1,9 @@
 package com.maquinadebusca.app.model.service;
 
-import com.maquinadebusca.app.model.Documento;
-import com.maquinadebusca.app.model.Host;
-import com.maquinadebusca.app.model.Link;
-import com.maquinadebusca.app.model.Pagina;
+import com.maquinadebusca.app.model.DocumentoModel;
+import com.maquinadebusca.app.model.HostModel;
+import com.maquinadebusca.app.model.LinkModel;
+import com.maquinadebusca.app.model.PaginaModel;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,13 +34,13 @@ import java.time.LocalDateTime;
 @Service
 public class ColetorService {
 
-	private List<Link> urlsSementes;
-	private List<Link> links;
+	private List<LinkModel> urlsSementes;
+	private List<LinkModel> links;
 	private List<String> urlsDisallow;
 
 	public ColetorService() {
-		urlsSementes = new ArrayList<Link>();
-		links = new ArrayList<Link>();
+		urlsSementes = new ArrayList<LinkModel>();
+		links = new ArrayList<LinkModel>();
 	}
 
 	private static final int SIZEPAG = 3;
@@ -72,7 +72,7 @@ public class ColetorService {
 		return resp;
 	}
 
-	public Link removerLink(Link link) {
+	public LinkModel removerLink(LinkModel link) {
 		try {
 			_linkRepository.delete(link);
 		} catch (Exception e) {
@@ -83,8 +83,8 @@ public class ColetorService {
 		return link;
 	}
 
-	public Link salvarLink(Link link) throws Exception {
-		Link l = null;
+	public LinkModel salvarLink(LinkModel link) throws Exception {
+		LinkModel l = null;
 		try {
 			l = _linkRepository.save(link);
 		} catch (Exception e) {
@@ -95,8 +95,8 @@ public class ColetorService {
 		return l;
 	}
 
-	public Link atualizarLink(Link link) {
-		Link l = null;
+	public LinkModel atualizarLink(LinkModel link) {
+		LinkModel l = null;
 		try {
 			l = _linkRepository.save(link);
 		} catch (Exception e) {
@@ -106,17 +106,17 @@ public class ColetorService {
 		return l;
 	}
 
-	public List<Link> obterLinks() {
-		Iterable<Link> Links = _linkRepository.findAll();
-		List<Link> resposta = new LinkedList<Link>();
-		for (Link Link : Links) {
+	public List<LinkModel> obterLinks() {
+		Iterable<LinkModel> Links = _linkRepository.findAll();
+		List<LinkModel> resposta = new LinkedList<LinkModel>();
+		for (LinkModel Link : Links) {
 			resposta.add(Link);
 		}
 		return resposta;
 	}
 
-	public Link obterProximaUrlAColetar() {
-		for (Link link : obterLinks()) {
+	public LinkModel obterProximaUrlAColetar() {
+		for (LinkModel link : obterLinks()) {
 			if (link.getUltimaColeta() == null) {
 				return link;
 			}
@@ -124,11 +124,11 @@ public class ColetorService {
 		return null;
 	}
 
-	public List<Documento> executar() {
+	public List<DocumentoModel> executar() {
 		try {
 			boolean existeLink = false;
 			do {
-				Link link = obterProximaUrlAColetar();
+				LinkModel link = obterProximaUrlAColetar();
 				if (link != null && documentoService.obterDocumentos().size() <= 10) {
 					this.coletar(link);
 					existeLink = true;
@@ -145,9 +145,9 @@ public class ColetorService {
 		return documentoService.obterDocumentos();
 	}
 
-	public Documento coletar(Link link) throws InterruptedException {
+	public DocumentoModel coletar(LinkModel link) throws InterruptedException {
 		String urlDocumento = link.getUrl();
-		Documento documento = new Documento();
+		DocumentoModel documento = new DocumentoModel();
 
 		try {
 			link = verificaUltimaColetaURL(urlDocumento);
@@ -168,10 +168,10 @@ public class ColetorService {
 				for (Element url : urls) {
 					i++;
 					String u = url.attr("abs:href");
-					Link linkEncontrado = null;
+					LinkModel linkEncontrado = null;
 					if ((!u.equals("")) && (u != null) && verificaUrlAllow(u)) {
 						if (!verificaLinkExistente(u) && !u.equals(urlDocumento)) {
-							linkEncontrado = new Link();
+							linkEncontrado = new LinkModel();
 							linkEncontrado.setUrl(u);
 							linkEncontrado.setUltimaColeta(null);
 							links.add(linkEncontrado);
@@ -208,7 +208,7 @@ public class ColetorService {
 	}
 	
 	public Boolean verificaLinkExistente(String url) {
-		for (Link link : getLinks()) {
+		for (LinkModel link : getLinks()) {
 			if (link.getUrl().equals(url)) {
 				return true;
 			}
@@ -217,10 +217,10 @@ public class ColetorService {
 		return false;
 	}
 	
-	public List<Link> getLinks() {
-		Iterable<Link> Links = _linkRepository.findAll();
-		List<Link> resposta = new LinkedList<Link>();
-		for (Link Link : Links) {
+	public List<LinkModel> getLinks() {
+		Iterable<LinkModel> Links = _linkRepository.findAll();
+		List<LinkModel> resposta = new LinkedList<LinkModel>();
+		for (LinkModel Link : Links) {
 			resposta.add(Link);
 		}
 		return resposta;
@@ -268,10 +268,10 @@ public class ColetorService {
 		return urlsDisallow;
 	}
 	
-	public Link verificaUltimaColetaURL(String urlDocumento) {
-		Link link = getByLink(urlDocumento);
+	public LinkModel verificaUltimaColetaURL(String urlDocumento) {
+		LinkModel link = getByLink(urlDocumento);
 		if (link == null) {
-			link = new Link();
+			link = new LinkModel();
 			link.setPodeColetar(true);
 		}
 
@@ -286,8 +286,8 @@ public class ColetorService {
 		return link;
 	}
 	
-	public Link getByLink(String url) {
-		Link l = _linkRepository.findByUrl(url);
+	public LinkModel getByLink(String url) {
+		LinkModel l = _linkRepository.findByUrl(url);
 		return l;
 	}
 
@@ -305,36 +305,36 @@ public class ColetorService {
 		return true;
 	}
 
-	public List<Documento> getDocumento() {
-		Iterable<Documento> documentos = _documentoRepository.findAll();
-		List<Documento> resposta = new LinkedList();
-		for (Documento documento : documentos) {
+	public List<DocumentoModel> getDocumento() {
+		Iterable<DocumentoModel> documentos = _documentoRepository.findAll();
+		List<DocumentoModel> resposta = new LinkedList();
+		for (DocumentoModel documento : documentos) {
 			resposta.add(documento);
 		}
 		return resposta;
 	}
 
-	public Documento getDocumento(long id) {
-		Documento documento = _documentoRepository.findById(id);
+	public DocumentoModel getDocumento(long id) {
+		DocumentoModel documento = _documentoRepository.findById(id);
 		return documento;
 	}
 
-	public List<Link> getLink() {
-		Iterable<Link> links = _linkRepository.findAll();
-		List<Link> resposta = new LinkedList();
-		for (Link link : links) {
+	public List<LinkModel> getLink() {
+		Iterable<LinkModel> links = _linkRepository.findAll();
+		List<LinkModel> resposta = new LinkedList();
+		for (LinkModel link : links) {
 			resposta.add(link);
 		}
 		return resposta;
 	}
 
-	public Link getLink(long id) {
-		Link link = _linkRepository.findById(id);
+	public LinkModel getLink(long id) {
+		LinkModel link = _linkRepository.findById(id);
 		return link;
 	}
 
-	public List<Link> salvarLinks(Iterable<Link> links) throws Exception {
-		List<Link> l = null;
+	public List<LinkModel> salvarLinks(Iterable<LinkModel> links) throws Exception {
+		List<LinkModel> l = null;
 		try {
 			l = _linkRepository.saveAll(links);
 		} catch (Exception e) {
@@ -345,16 +345,16 @@ public class ColetorService {
 		return l;
 	}
 
-	public List<Link> encontrarLinkUrl(String url) {
+	public List<LinkModel> encontrarLinkUrl(String url) {
 		return _linkRepository.findByUrlIgnoreCaseContaining(url);
 	}
 
-	public List<Link> listarEmOrdemAlfabetica() {
+	public List<LinkModel> listarEmOrdemAlfabetica() {
 		return _linkRepository.getInLexicalOrder();
 	}
 
 	public String buscarPagina() {
-		Slice<Link> pagina = null;
+		Slice<LinkModel> pagina = null;
 		Pageable pageable = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "url"));
 
 		while (true) {
@@ -364,7 +364,7 @@ public class ColetorService {
 			int tamanhoDaPagina = pagina.getSize();
 			System.out.println("\n\nPágina: " + numeroDaPagina + " Número de Elementos: " + numeroDeElementosNaPagina
 					+ " Tamaho da Página: " + tamanhoDaPagina);
-			List<Link> links = pagina.getContent();
+			List<LinkModel> links = pagina.getContent();
 			links.forEach(System.out::println);
 			if (!pagina.hasNext()) {
 				break;
@@ -374,11 +374,11 @@ public class ColetorService {
 		return "{\"resposta\": \"Ok\"}";
 	}
 
-	public Pagina obterPagina(int pag) {
-		Slice<Link> pagina = null;
+	public PaginaModel obterPagina(int pag) {
+		Slice<LinkModel> pagina = null;
 		Pageable pageable = PageRequest.of(pag, SIZEPAG, Sort.by(Sort.Direction.DESC, "url"));
 
-		Pagina resultadoPag = new Pagina();
+		PaginaModel resultadoPag = new PaginaModel();
 		pagina = _linkRepository.getPage(pageable);
 		if (pagina != null) {
 			resultadoPag.setTamanhoPag(pagina.getSize());
@@ -390,16 +390,16 @@ public class ColetorService {
 		return resultadoPag;
 	}
 
-	public List<Link> pesquisarLinkPorIntervaloDeIdentificacao(Long id1, Long id2) {
+	public List<LinkModel> pesquisarLinkPorIntervaloDeIdentificacao(Long id1, Long id2) {
 		return _linkRepository.findLinkByIdRange(id1, id2);
 	}
 
-	public List<Host> obterPorHost() {
+	public List<HostModel> obterPorHost() {
 		return _hostRepository.findAll();
 	}
 
-	public Host obterPorHost(String hostUrl) {
-		for (Host host : obterPorHost()) {
+	public HostModel obterPorHost(String hostUrl) {
+		for (HostModel host : obterPorHost()) {
 			if (host.getHost().equals(hostUrl)) {
 				return host;
 			}
@@ -412,7 +412,7 @@ public class ColetorService {
 		return _linkRepository.countLinkByIdRange(id1, id2);
 	}
 
-	public List<Link> pesquisarLinkPorIntervaloDeDataUltimaColeta(Date date1, Date date2) {
+	public List<LinkModel> pesquisarLinkPorIntervaloDeDataUltimaColeta(Date date1, Date date2) {
 		return _linkRepository.LinkByDateColetaRange(date1, date2);
 	}
 

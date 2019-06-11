@@ -3,7 +3,7 @@ package com.maquinadebusca.app.model;
 import java.util.LinkedList;
 import java.util.List;
 
-public class EntradaRanking {
+public class EntradaRankingModel {
 
     private String url;
     private List<Double> produtoPesos = new LinkedList();
@@ -11,10 +11,10 @@ public class EntradaRanking {
     private double somaQuadradosPesosConsulta;
     private double similaridade;
 
-    public EntradaRanking() {
+    public EntradaRankingModel() {
     }
 
-    public EntradaRanking(String url, double produtoPesos, double somaQuadradosPesosDocumento, double somaQuadradosPesosConsulta) {
+    public EntradaRankingModel(String url, double produtoPesos, double somaQuadradosPesosDocumento, double somaQuadradosPesosConsulta) {
         this.url = url;
         this.produtoPesos.add(produtoPesos);
         this.somaQuadradosPesosDocumento = somaQuadradosPesosDocumento;

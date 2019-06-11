@@ -1,6 +1,6 @@
 package com.maquinadebusca.app.model.service;
 
-import com.maquinadebusca.app.model.IndiceInvertido;
+import com.maquinadebusca.app.model.IndiceInvertidoModel;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ public class IndiceInvertidoService {
     public IndiceInvertidoService() {
     }
 
-    public List<IndiceInvertido> getEntradasIndiceInvertido(String termo) {
+    public List<IndiceInvertidoModel> getEntradasIndiceInvertido(String termo) {
         return iir.getEntradasIndiceInvertido(termo);
     }
 

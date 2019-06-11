@@ -1,15 +1,15 @@
 package com.maquinadebusca.app.model.repository;
 
-import com.maquinadebusca.app.model.Host;
+import com.maquinadebusca.app.model.HostModel;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface HostRepository extends JpaRepository<Host, Long> {
+public interface HostRepository extends JpaRepository<HostModel, Long> {
 
     @Override
-    List<Host> findAll();
+    List<HostModel> findAll();
 
-    Host findById(long id);
+    HostModel findById(long id);
 
 }

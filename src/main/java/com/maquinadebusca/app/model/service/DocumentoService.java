@@ -1,6 +1,6 @@
 package com.maquinadebusca.app.model.service;
 
-import com.maquinadebusca.app.model.Documento;
+import com.maquinadebusca.app.model.DocumentoModel;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,25 +16,25 @@ public class DocumentoService {
 	@Autowired
 	DocumentoRepository dr;
 
-	public List<Documento> obterDocumentos() {
-		Iterable<Documento> documentos = dr.findAll();
-		List<Documento> resposta = new LinkedList();
-		for (Documento documento : documentos) {
+	public List<DocumentoModel> obterDocumentos() {
+		Iterable<DocumentoModel> documentos = dr.findAll();
+		List<DocumentoModel> resposta = new LinkedList();
+		for (DocumentoModel documento : documentos) {
 			resposta.add(documento);
 		}
 		return resposta;
 	}
 
-	public Documento obterDocumentoPorId(long id) {
-		Documento documento = dr.findById(id);
+	public DocumentoModel obterDocumentoPorId(long id) {
+		DocumentoModel documento = dr.findById(id);
 		return documento;
 	}
 
-	public List<Documento> encontrarDocumentoPorTexto(String pesquisa) {
+	public List<DocumentoModel> encontrarDocumentoPorTexto(String pesquisa) {
 		List<Object[]> objs = dr.obterDocumento(pesquisa);
-		List<Documento> docs = new ArrayList<Documento>();
+		List<DocumentoModel> docs = new ArrayList<DocumentoModel>();
 		for (Object[] row : objs) {
-			Documento doc = new Documento();
+			DocumentoModel doc = new DocumentoModel();
 			doc.setTitulo(row[0].toString());
 			doc.setUrl(row[1].toString());
 			doc.setVisao(row[2].toString().substring(0, 240));
@@ -44,7 +44,7 @@ public class DocumentoService {
 		return docs;
 	}
 
-	public Documento save(Documento documento) {
+	public DocumentoModel save(DocumentoModel documento) {
 		return dr.save(documento);
 	}
 

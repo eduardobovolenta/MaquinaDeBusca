@@ -3,7 +3,7 @@ package com.maquinadebusca.app.controller;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.maquinadebusca.app.mensagem.Mensagem;
-import com.maquinadebusca.app.model.Usuario;
+import com.maquinadebusca.app.model.UsuarioModel;
 import com.maquinadebusca.app.model.service.UsuarioService;
 import java.util.List;
 
@@ -27,7 +27,7 @@ import org.springframework.http.MediaType;
 
 
 @RestController
-public class Usuario_Controller {
+public class UsuarioController {
 
 	@Autowired
 	UsuarioService usuarioService;
@@ -36,7 +36,7 @@ public class Usuario_Controller {
 
 	@PostMapping(value = "/usuario")
 	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
-	public ResponseEntity<Object> inserirUser(@RequestBody @Valid Usuario user, BindingResult resultado,
+	public ResponseEntity<Object> inserirUser(@RequestBody @Valid UsuarioModel user, BindingResult resultado,
 			HttpServletRequest request) {
 		ResponseEntity<Object> resposta = null;
 		try {
@@ -69,7 +69,7 @@ public class Usuario_Controller {
 	@GetMapping(value = "/listar", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<Object> listar() {
 		ResponseEntity<Object> resposta = null;
-		List<Usuario> users = usuarioService.obterUsuarios();
+		List<UsuarioModel> users = usuarioService.obterUsuarios();
 		if (!users.isEmpty()) {
 			resposta = new ResponseEntity<Object>(users, HttpStatus.OK);
 		} else {

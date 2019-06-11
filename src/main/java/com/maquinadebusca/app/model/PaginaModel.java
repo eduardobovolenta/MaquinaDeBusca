@@ -2,7 +2,7 @@ package com.maquinadebusca.app.model;
 
 import java.util.List;
 
-public class Pagina {
+public class PaginaModel {
 	
 	private int numeroPag;
 	
@@ -10,7 +10,7 @@ public class Pagina {
 	
 	private int tamanhoPag;
 	
-	private List<Link> links;
+	private List<LinkModel> links;
 
 	public int getNumeroPag() {
 		return numeroPag;
@@ -36,11 +36,11 @@ public class Pagina {
 		this.tamanhoPag = tamanhoPag;
 	}
 
-	public List<Link> getLinks() {
+	public List<LinkModel> getLinks() {
 		return links;
 	}
 
-	public void setLinks(List<Link> links) {
+	public void setLinks(List<LinkModel> links) {
 		this.links = links;
 	}
 }

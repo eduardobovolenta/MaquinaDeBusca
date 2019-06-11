@@ -26,7 +26,7 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") 
-public class Link implements Serializable {
+public class LinkModel implements Serializable {
 
 	static final long serialVersionUID = 1L;
 
@@ -46,13 +46,13 @@ public class Link implements Serializable {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "documento_id")
-	private Documento documento; 
+	private DocumentoModel documento; 
 	
-	public Link() {
+	public LinkModel() {
 		this.podeColetar = true;
 	}
 
-	public Link(String url, Documento documento) {
+	public LinkModel(String url, DocumentoModel documento) {
 		this.url = url;
 		this.ultimaColeta = null;
 		this.documento = documento;
@@ -91,11 +91,11 @@ public class Link implements Serializable {
 		this.id = id;
 	}
 
-	public Documento getDocumento() {
+	public DocumentoModel getDocumento() {
 		return documento;
 	}
 
-	public void setDocumento(Documento documento) {
+	public void setDocumento(DocumentoModel documento) {
 		this.documento = documento;
 	}
 
@@ -118,7 +118,7 @@ public class Link implements Serializable {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		final Link other = (Link) obj;
+		final LinkModel other = (LinkModel) obj;
 		if (!Objects.equals(this.url, other.url)) {
 			return false;
 		}

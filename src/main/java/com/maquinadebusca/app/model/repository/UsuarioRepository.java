@@ -1,13 +1,13 @@
 package com.maquinadebusca.app.model.repository;
 
-import com.maquinadebusca.app.model.Usuario;
+import com.maquinadebusca.app.model.UsuarioModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UsuarioRepository extends JpaRepository<Usuario, String> {
+public interface UsuarioRepository extends JpaRepository<UsuarioModel, String> {
 
-    Usuario findByLogin(String login);
+    UsuarioModel findByLogin(String login);
 
     @Override
-    Usuario save(Usuario usuario);
+    UsuarioModel save(UsuarioModel usuario);
 
 }

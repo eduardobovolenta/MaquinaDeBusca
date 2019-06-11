@@ -1,6 +1,6 @@
 package com.maquinadebusca.app.model;
 
-public class TermoConsulta {
+public class TermoConsultaModel {
 
     private String texto;
     private int frequencia;
@@ -8,10 +8,10 @@ public class TermoConsulta {
     private double idf;
     private double peso;
 
-    public TermoConsulta() {
+    public TermoConsultaModel() {
     }
 
-    public TermoConsulta(String texto, int frequencia, double idf) {
+    public TermoConsultaModel(String texto, int frequencia, double idf) {
         this.texto = texto;
         this.frequencia = frequencia;
         this.tf = 1 + Math.log(this.frequencia) / Math.log(2);

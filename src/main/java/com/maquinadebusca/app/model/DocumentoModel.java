@@ -28,20 +28,12 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Documento implements Serializable {
+public class DocumentoModel implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	//private double frequenciaMaxima;
-
-	//private double somaQuadradosPesos;
-
-	//@Transient // Atributos marcados com a anotação @Transient não são gravados no banco de
-				// dados.
-	//private double similaridade;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -57,28 +49,38 @@ public class Documento implements Serializable {
 	@Lob
 	@NotBlank
 	private String visao;
-	
-	
+
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "host_id")
-	private Host host;
+	private HostModel host;
 
 	@NotBlank
 	@Column(nullable = false, length = 200)
 	private String titulo;
 
 	@OneToMany(mappedBy = "documento", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-	private Set<Link> links;
+	private Set<LinkModel> links;
 	
+	@OneToMany(
+            mappedBy = "documentoId", // Nome do atributo na classe IndiceInvertido.
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
+    )
+    private List<IndiceInvertidoModel> indiceInvertido;
+	
+	private double frequenciaMaxima;
 
-	public Documento(String url, String texto, String visao, String titulo) {
+	private double somaQuadradosPesos;
+
+	public DocumentoModel(String url, String texto, String visao, String titulo) {
 		this.url = url;
 		this.texto = texto;
 		this.visao = visao;
 		this.titulo = titulo;
 		this.links = new HashSet();
-		//this.indiceInvertido = new LinkedList();
+		this.indiceInvertido = new LinkedList();
 	}
 
 	public String getTitulo() {
@@ -89,7 +91,7 @@ public class Documento implements Serializable {
 		this.titulo = titulo;
 	}
 
-	public Documento() {
+	public DocumentoModel() {
 		links = new HashSet();
 	}
 
@@ -125,29 +127,29 @@ public class Documento implements Serializable {
 		this.url = url;
 	}
 
-	public Set<Link> getLinks() {
+	public Set<LinkModel> getLinks() {
 		return links;
 	}
 
-	public void setLinks(Set<Link> links) {
+	public void setLinks(Set<LinkModel> links) {
 		this.links = links;
 	}
 
-	public void addLink(Link link) {
+	public void addLink(LinkModel link) {
 		link.setDocumento(this);
 		this.links.add(link);
 	}
 
-	public void removeLink(Link link) {
+	public void removeLink(LinkModel link) {
 		link.setDocumento(null);
 		links.remove(link);
 	}
 
-	public Host getHost() {
+	public HostModel getHost() {
 		return host;
 	}
 
-	public void setHost(Host host) {
+	public void setHost(HostModel host) {
 		this.host = host;
 	}
 
@@ -173,7 +175,7 @@ public class Documento implements Serializable {
 			return false;
 		}
 
-		final Documento other = (Documento) obj;
+		final DocumentoModel other = (DocumentoModel) obj;
 		if (!Objects.equals(this.url, other.url)) {
 			return false;
 		}
@@ -185,22 +187,22 @@ public class Documento implements Serializable {
 		return true;
 	}
 
-//	public double getFrequenciaMaxima() {
-//		return frequenciaMaxima;
-//	}
-//
-//	public void setFrequenciaMaxima(double frequenciaMaxima) {
-//		this.frequenciaMaxima = frequenciaMaxima;
-//	}
-//
-//	public double getSomaQuadradosPesos() {
-//		return somaQuadradosPesos;
-//	}
-//
-//	public void setSomaQuadradosPesos(double somaQuadradosPesos) {
-//		this.somaQuadradosPesos = somaQuadradosPesos;
-//	}
-//
+	public double getFrequenciaMaxima() {
+		return frequenciaMaxima;
+	}
+
+	public void setFrequenciaMaxima(double frequenciaMaxima) {
+		this.frequenciaMaxima = frequenciaMaxima;
+	}
+
+	public double getSomaQuadradosPesos() {
+		return somaQuadradosPesos;
+	}
+
+	public void setSomaQuadradosPesos(double somaQuadradosPesos) {
+		this.somaQuadradosPesos = somaQuadradosPesos;
+	}
+
 //	public double getSimilaridade() {
 //		return similaridade;
 //	}
@@ -209,40 +211,36 @@ public class Documento implements Serializable {
 //		this.similaridade = similaridade;
 //	}
 
-//	public List<IndiceInvertido> getIndiceInvertido() {
-//		return indiceInvertido;
-//	}
-//
-//	public void setIndiceInvertido(List<IndiceInvertido> indiceInvertido) {
-//		this.indiceInvertido = indiceInvertido;
-//	}
-//
-//	public void inserirTermo(TermoDocumento termo) {
-//		IndiceInvertido entradaIndiceInvertido = new IndiceInvertido(termo, this); // Cria uma nova entrada para o
-//																					// índice invertido com o termo
-//																					// informado como parâmetro e com o
-//																					// documento corrente.
-//		this.indiceInvertido.add(entradaIndiceInvertido); // Insere a nova entrada no índice invertido do documento
-//															// corrente.
-//		termo.getIndiceInvertido().add(entradaIndiceInvertido); // Insere a nova entrada no índice invertido do termo
-//																// que foi informado como parâmetro.
-//	}
-//
-//	public void removeTermo(TermoDocumento termo) {
-//		Iterator<IndiceInvertido> iterator = this.indiceInvertido.iterator();
-//		while (iterator.hasNext()) {
-//			IndiceInvertido entradaIndiceInvertido = iterator.next();
-//			if (entradaIndiceInvertido.getTermo().equals(termo) && entradaIndiceInvertido.getDocumento().equals(this)) {
-//				iterator.remove(); // Remoção no Banco de Dados a partir da tabela Documento.
-//				entradaIndiceInvertido.getTermo().getIndiceInvertido().remove(entradaIndiceInvertido); // Remoção no
-//																										// Banco de
-//																										// Dados a
-//																										// partir da
-//																										// tabela
-//																										// TermoDocumento.
-//				entradaIndiceInvertido.setDocumento(null); // Remoção na memória RAM.
-//				entradaIndiceInvertido.setTermo(null); // Remoção na memória RAM.
-//			}
-//		}
-//	}
+	public List<IndiceInvertidoModel> getIndiceInvertido() {
+		return indiceInvertido;
+	}
+
+	public void setIndiceInvertido(List<IndiceInvertidoModel> indiceInvertido) {
+		this.indiceInvertido = indiceInvertido;
+	}
+
+	public void inserirTermo(TermoDocumentoModel termo) {
+		IndiceInvertidoModel entradaIndiceInvertido = new IndiceInvertidoModel(termo, this); // Cria uma nova entrada para o
+																					// índice invertido com o termo
+																					// informado como parâmetro e com o
+																					// documento corrente.
+		this.indiceInvertido.add(entradaIndiceInvertido); // Insere a nova entrada no índice invertido do documento
+															// corrente.
+		termo.getIndiceInvertido().add(entradaIndiceInvertido); // Insere a nova entrada no índice invertido do termo
+																// que foi informado como parâmetro.
+	}
+
+	public void removeTermo(TermoDocumentoModel termo) {
+		Iterator<IndiceInvertidoModel> iterator = this.indiceInvertido.iterator();
+		while (iterator.hasNext()) {
+			IndiceInvertidoModel entradaIndiceInvertido = iterator.next();
+			if (entradaIndiceInvertido.getTermo().equals(termo) && entradaIndiceInvertido.getDocumento().equals(this)) {
+				iterator.remove(); // Remoção no Banco de Dados a partir da tabela Documento.
+				entradaIndiceInvertido.getTermo().getIndiceInvertido().remove(entradaIndiceInvertido); // Remoção no
+																									// TermoDocumento.
+				entradaIndiceInvertido.setDocumento(null); // Remoção na memória RAM.
+				entradaIndiceInvertido.setTermo(null); // Remoção na memória RAM.
+			}
+		}
+	}
 }

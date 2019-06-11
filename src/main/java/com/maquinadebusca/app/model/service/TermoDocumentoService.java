@@ -1,6 +1,6 @@
 package com.maquinadebusca.app.model.service;
 
-import com.maquinadebusca.app.model.TermoDocumento;
+import com.maquinadebusca.app.model.TermoDocumentoModel;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.maquinadebusca.app.model.repository.TermoDocumentoRepository;
@@ -14,7 +14,7 @@ public class TermoDocumentoService {
     public TermoDocumentoService() {
     }
 
-    public TermoDocumento save(TermoDocumento termoDocumento) {
+    public TermoDocumentoModel save(TermoDocumentoModel termoDocumento) {
         return tdr.save(termoDocumento);
     }
 

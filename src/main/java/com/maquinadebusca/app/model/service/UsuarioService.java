@@ -1,6 +1,7 @@
 package com.maquinadebusca.app.model.service;
 
-import com.maquinadebusca.app.model.Usuario;
+import com.maquinadebusca.app.model.MyUserPrincipalModel;
+import com.maquinadebusca.app.model.UsuarioModel;
 import com.maquinadebusca.app.model.repository.UsuarioRepository;
 
 import java.util.ArrayList;
@@ -8,10 +9,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UsuarioService {
+public class UsuarioService implements UserDetailsService  {
 	
 
 	
@@ -19,8 +23,8 @@ public class UsuarioService {
     private UsuarioRepository _usuarioRepository;
     
 
-    public Usuario cadastrarUsuario(Usuario usuario) {
-        Usuario user = usuario;
+    public UsuarioModel cadastrarUsuario(UsuarioModel usuario) {
+        UsuarioModel user = usuario;
         try {
             user = _usuarioRepository.save(user);
         } catch (Exception e) {
@@ -31,7 +35,7 @@ public class UsuarioService {
     }
     
     public Boolean verificaPermissao(String login, HttpMethod metodo) {  
-		Usuario usuario = obterUsuarioPorUsuario(login);
+		UsuarioModel usuario = obterUsuarioPorUsuario(login);
 //		if(!metodo.equals(HttpMethod.GET) && !usuario.getPermissao().equals(PermissaoEnum.Permissao.ADMIN.getCode())) {
 //			return false;
 //		}
@@ -39,8 +43,8 @@ public class UsuarioService {
 		return true;
 	}
     
-    public Usuario obterUsuarioPorUsuario(String login) { 
-		for (Usuario usuario : _usuarioRepository.findAll()) {
+    public UsuarioModel obterUsuarioPorUsuario(String login) { 
+		for (UsuarioModel usuario : _usuarioRepository.findAll()) {
 			if (usuario.getLogin().equals(login)) {
 				return usuario;
 			}
@@ -49,17 +53,25 @@ public class UsuarioService {
 		return null;
 	}
     
-    public List<Usuario> obterUsuarios() {
-		Iterable<Usuario> usuarios = _usuarioRepository.findAll();
-		List<Usuario> resposta = new ArrayList<Usuario>();
-		for (Usuario usuario : usuarios) {
+    public List<UsuarioModel> obterUsuarios() {
+		Iterable<UsuarioModel> usuarios = _usuarioRepository.findAll();
+		List<UsuarioModel> resposta = new ArrayList<UsuarioModel>();
+		for (UsuarioModel usuario : usuarios) {
 			resposta.add(usuario);
 		}
 		return resposta;
 	}
 
-
-
+    
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException { 
+		for (UsuarioModel usuario : _usuarioRepository.findAll()) {
+			if (usuario.getLogin().equals(username)) {
+				return new MyUserPrincipalModel(usuario);
+			}
+		}
+		throw new UsernameNotFoundException(username); 
+	}
     
     
     

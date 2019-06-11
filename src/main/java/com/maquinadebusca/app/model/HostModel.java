@@ -19,7 +19,7 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Host implements Serializable {
+public class HostModel implements Serializable {
 
 	/**
 	 * 
@@ -37,16 +37,16 @@ public class Host implements Serializable {
 	private int qtdPaginas;
 	
 	@OneToMany(mappedBy = "host", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-	private Set<Documento> documentos;
+	private Set<DocumentoModel> documentos;
 
-	public Host(Long id, String host, Integer qtdPaginas, Set<Link> links) {
+	public HostModel(Long id, String host, Integer qtdPaginas, Set<LinkModel> links) {
 		this.id = id;
 		this.host = host;
 		this.qtdPaginas = qtdPaginas;
 		this.documentos = new HashSet();
 	}
 
-	public Host() {
+	public HostModel() {
 		this.documentos = new HashSet();
 	}
 
@@ -74,20 +74,20 @@ public class Host implements Serializable {
 		this.qtdPaginas = qtdPaginas;
 	}
 
-	public Set<Documento> getDocumentos() {
+	public Set<DocumentoModel> getDocumentos() {
 		return documentos;
 	}
 
-	public void setDocumento(Set<Documento> documento) {
+	public void setDocumento(Set<DocumentoModel> documento) {
 		this.documentos = documento;
 	} 
 	
-	public void addDocumento(Documento documento) {
+	public void addDocumento(DocumentoModel documento) {
 		documento.setHost(this);
 		this.documentos.add(documento);
 	} 
 
-	public void removeDocumento(Documento documento) {
+	public void removeDocumento(DocumentoModel documento) {
 		documento.setHost(null);
 		documentos.remove(documento);
 	}

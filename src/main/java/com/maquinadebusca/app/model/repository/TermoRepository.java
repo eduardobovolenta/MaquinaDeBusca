@@ -2,16 +2,16 @@ package com.maquinadebusca.app.model.repository;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.maquinadebusca.app.model.TermoDocumento;
+import com.maquinadebusca.app.model.TermoDocumentoModel;
 
-public interface TermoRepository extends JpaRepository<TermoDocumento, Long> {
-
-    @Override
-    List<TermoDocumento> findAll();
-
-    TermoDocumento findById(long id);
+public interface TermoRepository extends JpaRepository<TermoDocumentoModel, Long> {
 
     @Override
-    TermoDocumento save(TermoDocumento termo);
+    List<TermoDocumentoModel> findAll();
+
+    TermoDocumentoModel findById(long id);
+
+    @Override
+    TermoDocumentoModel save(TermoDocumentoModel termo);
 
 }

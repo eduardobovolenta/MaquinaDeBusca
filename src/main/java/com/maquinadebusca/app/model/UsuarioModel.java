@@ -19,7 +19,7 @@ import javax.validation.constraints.NotEmpty;
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
 )
-public class Usuario implements Serializable {
+public class UsuarioModel implements Serializable {
 
     static final long serialVersionUID = 1L;
 

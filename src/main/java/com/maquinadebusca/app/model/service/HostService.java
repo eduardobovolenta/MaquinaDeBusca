@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.maquinadebusca.app.model.Documento;
-import com.maquinadebusca.app.model.Host;
-import com.maquinadebusca.app.model.Link;
+import com.maquinadebusca.app.model.DocumentoModel;
+import com.maquinadebusca.app.model.HostModel;
+import com.maquinadebusca.app.model.LinkModel;
 import com.maquinadebusca.app.model.repository.HostRepository; 
 
 @Service
@@ -23,21 +23,21 @@ public class HostService {
 	@Autowired
 	private HostRepository hr;
 
-	public Host addHost(Host host) {
+	public HostModel addHost(HostModel host) {
 		return hr.save(host);
 	}
 
-	public List<Host> getHosts() {
+	public List<HostModel> getHosts() {
 		return hr.findAll();
 	}
 
-	public Host getHostById(long id) {
-		Host host = hr.findById(id);
+	public HostModel getHostById(long id) {
+		HostModel host = hr.findById(id);
 		return host;
 	}
 
-	public Host getByHost(String hostUrl) {
-		for (Host host : getHosts()) {
+	public HostModel getByHost(String hostUrl) {
+		for (HostModel host : getHosts()) {
 			if (host.getHost().equals(hostUrl)) {
 				return host;
 			}
@@ -47,11 +47,11 @@ public class HostService {
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public Host addLink(Documento documento, String hostUrl) {
-		Host host = getByHost(hostUrl); 
+	public HostModel addLink(DocumentoModel documento, String hostUrl) {
+		HostModel host = getByHost(hostUrl); 
 		
 		if(host == null) { 
-			host = new Host();
+			host = new HostModel();
 			host.setHost(hostUrl);
 			host.getDocumentos().add(documento);
 			host.setQtdPaginas(1);

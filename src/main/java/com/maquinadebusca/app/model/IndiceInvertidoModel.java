@@ -15,12 +15,12 @@ import javax.persistence.MapsId;
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
 )
-public class IndiceInvertido implements Serializable {
+public class IndiceInvertidoModel implements Serializable {
 
     static final long serialVersionUID = 1L;
 
     @EmbeddedId
-    private IdIndiceInvertido id;
+    private IdIndiceInvertidoModel id;
 
     private int frequencia;
 
@@ -30,33 +30,33 @@ public class IndiceInvertido implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("idTermo")
-    private TermoDocumento termo;
+    private TermoDocumentoModel termo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("idDocumento")
-    private Documento documento;
+    private DocumentoModel documentoId;
 
-    public IndiceInvertido() {
+    public IndiceInvertidoModel() {
     }
 
-    public IndiceInvertido(TermoDocumento termo, Documento documento) {
+    public IndiceInvertidoModel(TermoDocumentoModel termo, DocumentoModel documento) {
         this.termo = termo;
-        this.documento = documento;
-        this.id = new IdIndiceInvertido(termo.getId(), documento.getId());
+        this.documentoId = documento;
+        this.id = new IdIndiceInvertidoModel(termo.getId(), documento.getId());
     }
 
-    public IndiceInvertido(TermoDocumento termo, Documento documento, int frequencia) {
+    public IndiceInvertidoModel(TermoDocumentoModel termo, DocumentoModel documento, int frequencia) {
         this.termo = termo;
-        this.documento = documento;
+        this.documentoId = documento;
         this.frequencia = frequencia;
-        this.id = new IdIndiceInvertido(termo.getId(), documento.getId());
+        this.id = new IdIndiceInvertidoModel(termo.getId(), documento.getId());
     }
 
-    public IdIndiceInvertido getId() {
+    public IdIndiceInvertidoModel getId() {
         return id;
     }
 
-    public void setId(IdIndiceInvertido id) {
+    public void setId(IdIndiceInvertidoModel id) {
         this.id = id;
     }
 
@@ -84,20 +84,20 @@ public class IndiceInvertido implements Serializable {
         this.peso = peso;
     }
 
-    public TermoDocumento getTermo() {
+    public TermoDocumentoModel getTermo() {
         return termo;
     }
 
-    public void setTermo(TermoDocumento termo) {
+    public void setTermo(TermoDocumentoModel termo) {
         this.termo = termo;
     }
 
-    public Documento getDocumento() {
-        return documento;
+    public DocumentoModel getDocumento() {
+        return documentoId;
     }
 
-    public void setDocumento(Documento documento) {
-        this.documento = documento;
+    public void setDocumento(DocumentoModel documento) {
+        this.documentoId = documento;
     }
 
     @Override
@@ -119,7 +119,7 @@ public class IndiceInvertido implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final IndiceInvertido other = (IndiceInvertido) obj;
+        final IndiceInvertidoModel other = (IndiceInvertidoModel) obj;
         if (!Objects.equals(this.id.getIdTermo(), other.id.getIdTermo())) {
             return false;
         }

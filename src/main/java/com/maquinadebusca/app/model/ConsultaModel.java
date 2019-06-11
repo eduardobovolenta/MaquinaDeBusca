@@ -3,17 +3,17 @@ package com.maquinadebusca.app.model;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Consulta {
+public class ConsultaModel {
 
     private String texto;
     private String visao;
-    private List<TermoConsulta> termosConsulta = new LinkedList();
-    private List<EntradaRanking> ranking = new LinkedList();
+    private List<TermoConsultaModel> termosConsulta = new LinkedList();
+    private List<EntradaRankingModel> ranking = new LinkedList();
 
-    public Consulta() {
+    public ConsultaModel() {
     }
 
-    public Consulta(String texto) {
+    public ConsultaModel(String texto) {
         this.texto = texto;
         this.visao = texto;
     }
@@ -34,15 +34,15 @@ public class Consulta {
         this.visao = visao;
     }
 
-    public List<TermoConsulta> getTermosConsulta() {
+    public List<TermoConsultaModel> getTermosConsulta() {
         return termosConsulta;
     }
 
-    public void setTermosConsulta(List<TermoConsulta> termosConsulta) {
+    public void setTermosConsulta(List<TermoConsultaModel> termosConsulta) {
         this.termosConsulta = termosConsulta;
     }
 
-    public void adicionarTermoConsulta(TermoConsulta termoConsulta) {
+    public void adicionarTermoConsulta(TermoConsultaModel termoConsulta) {
         this.termosConsulta.add(termoConsulta);
     }
 
@@ -59,18 +59,18 @@ public class Consulta {
 
     public double getSomaQuadradosPesos() {
         double somaQuadradosPesos = 0;
-        List<TermoConsulta> termosConsulta = this.getTermosConsulta();
-        for (TermoConsulta termoConsulta : termosConsulta) {
+        List<TermoConsultaModel> termosConsulta = this.getTermosConsulta();
+        for (TermoConsultaModel termoConsulta : termosConsulta) {
             somaQuadradosPesos += Math.pow(termoConsulta.getPeso(), 2);
         }
         return somaQuadradosPesos;
     }
 
-    public List<EntradaRanking> getRanking() {
+    public List<EntradaRankingModel> getRanking() {
         return ranking;
     }
 
-    public void setRanking(List<EntradaRanking> ranking) {
+    public void setRanking(List<EntradaRankingModel> ranking) {
         this.ranking = ranking;
     }
 

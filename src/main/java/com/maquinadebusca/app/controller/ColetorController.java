@@ -1,7 +1,7 @@
 package com.maquinadebusca.app.controller;
 
 import com.maquinadebusca.app.mensagem.Mensagem;
-import com.maquinadebusca.app.model.Link;
+import com.maquinadebusca.app.model.LinkModel;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/coletor") // URL: http://localhost:8080/coletor
-public class Coletor_Controller {
+public class ColetorController {
 
 	@Autowired
 	ColetorService cs;
