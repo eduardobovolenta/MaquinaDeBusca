@@ -21,11 +21,11 @@ public class Indexador_Controller {
     // URL: http://localhost:8080/indexador/indice
     @PostMapping(value = "/indice", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity criarIndice() {
-        boolean confirmacao = is.criarIndice();
+        boolean confirmacao = true; //is.criarIndice();
         ResponseEntity resp;
 
         if (confirmacao) {
-            resp = new ResponseEntity(new Mensagem("sucesso", "o índice invertido foi criado com sucesso"), HttpStatus.CREATED);
+            resp = new ResponseEntity(new Mensagem("deu ruim", "o índice invertido não foi implementado"), HttpStatus.CREATED);
         } else {
             resp = new ResponseEntity(new Mensagem("erro", "o índice invertido não pode ser criado"), HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -50,22 +50,27 @@ public class Link_Controller {
 
 	// Request for: http://localhost:8080/coletor/link
 	@PostMapping(value = "/link", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	public ResponseEntity inserirLink(@RequestBody @Valid Link link, BindingResult resultado) {
 		ResponseEntity resposta = null;
-		if (resultado.hasErrors()) {
-			resposta = new ResponseEntity(
-					new Mensagem("erro", "os dados sobre o link  não foram informados corretamente"),
-					HttpStatus.BAD_REQUEST);
-		} else {
-			link = coletorService.salvarLink(link);
-			if ((link != null) && (link.getId() > 0)) {
-				resposta = new ResponseEntity(link, HttpStatus.OK);
-			} else {
+		try {
+			if (resultado.hasErrors()) {
 				resposta = new ResponseEntity(
-						new Mensagem("erro", "não foi possível inserir o link informado no banco de dados"),
-						HttpStatus.INTERNAL_SERVER_ERROR);
+						new Mensagem("erro", "os dados sobre o link  não foram informados corretamente"),
+						HttpStatus.BAD_REQUEST);
+			} else {
+				link = coletorService.salvarLink(link);
+				if ((link != null) && (link.getId() > 0)) {
+					resposta = new ResponseEntity(link, HttpStatus.OK);
+				} else {
+					resposta = new ResponseEntity(
+							new Mensagem("erro", "não foi possível inserir o link informado no banco de dados"),
+							HttpStatus.INTERNAL_SERVER_ERROR);
+				}
 			}
+		} catch (Exception e) {
+			resposta = new ResponseEntity<Object>(
+					new Mensagem("erro", "não foi possível inserir o link informado no banco de dados"),
+					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return resposta;
 	}
@@ -235,7 +240,7 @@ public class Link_Controller {
 	}
 
 	// Request for: http://localhost:8080/link/intervalo/{id1}/{id2}
-	@GetMapping(value = "/intervaloData/{date1}/{date2}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@GetMapping(value = "/intervalo-data/{date1}/{date2}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<Object> encontrarLinkPorIntervaloDeData(@PathVariable(value = "date1") Date date1,
 			@PathVariable(value = "date2") Date date2) {
 		ResponseEntity<Object> resposta = null;
@@ -253,8 +258,8 @@ public class Link_Controller {
 	public ResponseEntity atualizarUltimaColeta(@PathVariable(value = "host") String host,
 			@PathVariable(value = "data") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime data) {
 		int n = coletorService.atualizarDataUltimaColeta(host, data);
-		ResponseEntity resposta = new ResponseEntity(
-				new Mensagem("sucesso", "número de registros atualizados: "), HttpStatus.OK);
+		ResponseEntity resposta = new ResponseEntity(new Mensagem("sucesso", "número de registros atualizados: "),
+				HttpStatus.OK);
 		return resposta;
 	}
 }

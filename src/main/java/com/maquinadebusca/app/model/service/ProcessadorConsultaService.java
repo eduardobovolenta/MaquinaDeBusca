@@ -35,7 +35,7 @@ public class ProcessadorConsultaService {
     public Consulta processarConsulta(String textoConsulta) {
         Consulta consulta = new Consulta(textoConsulta);
         this.iniciarTermosConsulta(consulta);
-        this.processarListasInvertidas(consulta);
+        //this.processarListasInvertidas(consulta);
         this.computarSimilaridade();
         consulta.setRanking(this.getRanking());
         return consulta;
@@ -54,25 +54,25 @@ public class ProcessadorConsultaService {
         }
     }
 
-    public void processarListasInvertidas(Consulta consulta) {
-        List<TermoConsulta> termosConsulta = consulta.getTermosConsulta();
-        for (TermoConsulta termoConsulta : termosConsulta) {
-            List<IndiceInvertido> entradasIndiceInvertido = iis.getEntradasIndiceInvertido(termoConsulta.getTexto());
-            for (IndiceInvertido entradaIndiceInvertido : entradasIndiceInvertido) {
-                if (this.mergeListasInvertidas.containsKey(entradaIndiceInvertido.getDocumento().getUrl())) {
-                    EntradaRanking entradaRanking = this.mergeListasInvertidas.get(entradaIndiceInvertido.getDocumento().getUrl());
-                    entradaRanking.adicionarProdutoPesos(termoConsulta.getPeso() * entradaIndiceInvertido.getPeso());
-                } else {
-                    EntradaRanking entradaRanking = new EntradaRanking();
-                    entradaRanking.setUrl(entradaIndiceInvertido.getDocumento().getUrl());
-                    entradaRanking.adicionarProdutoPesos(termoConsulta.getPeso() * entradaIndiceInvertido.getPeso());
-                    entradaRanking.setSomaQuadradosPesosDocumento(entradaIndiceInvertido.getDocumento().getSomaQuadradosPesos());
-                    entradaRanking.setSomaQuadradosPesosConsulta(consulta.getSomaQuadradosPesos());
-                    this.mergeListasInvertidas.put(entradaIndiceInvertido.getDocumento().getUrl(), entradaRanking);
-                }
-            }
-        }
-    }
+//    public void processarListasInvertidas(Consulta consulta) {
+//        List<TermoConsulta> termosConsulta = consulta.getTermosConsulta();
+//        for (TermoConsulta termoConsulta : termosConsulta) {
+//            List<IndiceInvertido> entradasIndiceInvertido = iis.getEntradasIndiceInvertido(termoConsulta.getTexto());
+//            for (IndiceInvertido entradaIndiceInvertido : entradasIndiceInvertido) {
+//                if (this.mergeListasInvertidas.containsKey(entradaIndiceInvertido.getDocumento().getUrl())) {
+//                    EntradaRanking entradaRanking = this.mergeListasInvertidas.get(entradaIndiceInvertido.getDocumento().getUrl());
+//                    entradaRanking.adicionarProdutoPesos(termoConsulta.getPeso() * entradaIndiceInvertido.getPeso());
+//                } else {
+//                    EntradaRanking entradaRanking = new EntradaRanking();
+//                    entradaRanking.setUrl(entradaIndiceInvertido.getDocumento().getUrl());
+//                    entradaRanking.adicionarProdutoPesos(termoConsulta.getPeso() * entradaIndiceInvertido.getPeso());
+//                    entradaRanking.setSomaQuadradosPesosDocumento(entradaIndiceInvertido.getDocumento().getSomaQuadradosPesos());
+//                    entradaRanking.setSomaQuadradosPesosConsulta(consulta.getSomaQuadradosPesos());
+//                    this.mergeListasInvertidas.put(entradaIndiceInvertido.getDocumento().getUrl(), entradaRanking);
+//                }
+//            }
+//        }
+//    }
 
     public void computarSimilaridade() {
         Collection<EntradaRanking> ranking = this.mergeListasInvertidas.values();

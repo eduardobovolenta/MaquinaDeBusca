@@ -33,8 +33,20 @@ public class Usuario implements Serializable {
     @NotBlank
 	@Column(nullable=false) 
     private String senha;
+    
+	@NotBlank
+	@Column(nullable=false) 
+	private String papel;
 
-    public Long getId() {
+    public String getPapel() {
+		return papel;
+	}
+
+	public void setPapel(String papel) {
+		this.papel = papel;
+	}
+
+	public Long getId() {
         return id;
     }
 

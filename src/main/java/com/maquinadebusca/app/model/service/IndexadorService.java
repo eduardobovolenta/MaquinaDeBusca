@@ -26,35 +26,35 @@ public class IndexadorService {
     this.hashTermos = new Hashtable ();
   }
 
-  @Transactional
-  public boolean criarIndice () {
-    List<Documento> documentos = this.getDocumentos ();
-    for (Documento documento : documentos) {
-      documento.setFrequenciaMaxima (0L);
-      documento.setSomaQuadradosPesos (0L);
-      documento = dr.save (documento);
-      this.indexar (documento);
-    }
+//  @Transactional
+//  public boolean criarIndice () {
+//    List<Documento> documentos = this.getDocumentos ();
+//    for (Documento documento : documentos) {
+//      documento.setFrequenciaMaxima (0L);
+//      documento.setSomaQuadradosPesos (0L);
+//      documento = dr.save (documento);
+//      this.indexar (documento);
+//    }
+//
+//    return true;
+//  }
 
-    return true;
-  }
-
-  public void indexar (Documento documento) {
-    int i;
-
-    String visaoDocumento = documento.getVisao ();
-    String[] termos = visaoDocumento.split (" ");
-    for (String termo: termos) {
-      if (!termo.equals ("")) {
-        TermoDocumento termoDocumento = this.getTermo (termo);
-        int f = this.frequencia (termoDocumento.getTexto (), termos);
-        if (f > documento.getFrequenciaMaxima ()) {
-          documento.setFrequenciaMaxima (f);
-        }
-        termoDocumento.inserirEntradaIndiceInvertido (documento, f);
-      }
-    }
-  }
+//  public void indexar (Documento documento) {
+//    int i;
+//
+//    String visaoDocumento = documento.getVisao ();
+//    String[] termos = visaoDocumento.split (" ");
+//    for (String termo: termos) {
+//      if (!termo.equals ("")) {
+//        TermoDocumento termoDocumento = this.getTermo (termo);
+//        int f = this.frequencia (termoDocumento.getTexto (), termos);
+//        if (f > documento.getFrequenciaMaxima ()) {
+//          documento.setFrequenciaMaxima (f);
+//        }
+//        termoDocumento.inserirEntradaIndiceInvertido (documento, f);
+//      }
+//    }
+//  }
 
   public TermoDocumento getTermo (String texto) {
     TermoDocumento termo;

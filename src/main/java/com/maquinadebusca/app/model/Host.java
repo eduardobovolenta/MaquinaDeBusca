@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,75 +16,79 @@ import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 
-/**
- *
- * @author Lucas Silva
- */
+
 @Entity
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id"
-)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Host implements Serializable {
 
-    static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    @Lob
-    @NotBlank
-    private String host;
-    @Lob
-    @NotBlank
-    private String url;
-    @OneToMany(
-            mappedBy = "url", // Nome do atributo na classe Link.
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            orphanRemoval = true
-    )
-    private Set<Link> links;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-    public Host() {
-        links = new HashSet();
-    }
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	
+	@NotBlank
+	@Column(unique=true, nullable=false, length = 200) 
+	private String host;
+	 
+	private int qtdPaginas;
+	
+	@OneToMany(mappedBy = "host", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	private Set<Documento> documentos;
 
-    public Host(String url, String host) {
-        this.url = url;
-        this.host = host;
-        this.links = new HashSet();
-    }
+	public Host(Long id, String host, Integer qtdPaginas, Set<Link> links) {
+		this.id = id;
+		this.host = host;
+		this.qtdPaginas = qtdPaginas;
+		this.documentos = new HashSet();
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public Host() {
+		this.documentos = new HashSet();
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public String getUrl() {
-        return url;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+	public String getHost() {
+		return host;
+	}
 
-    public String getHost() {
-        return host;
-    }
+	public void setHost(String host) {
+		this.host = host;
+	}
 
-    public void setHost(String host) {
-        this.host = host;
-    }
+	public int getQtdPaginas() {
+		return qtdPaginas;
+	}
 
-    public Set<Link> getLinks() {
-        return links;
-    }
+	public void setQtdPaginas(int qtdPaginas) {
+		this.qtdPaginas = qtdPaginas;
+	}
 
-    public void setLinks(Set<Link> links) {
-        this.links = links;
-    }
+	public Set<Documento> getDocumentos() {
+		return documentos;
+	}
 
+	public void setDocumento(Set<Documento> documento) {
+		this.documentos = documento;
+	} 
+	
+	public void addDocumento(Documento documento) {
+		documento.setHost(this);
+		this.documentos.add(documento);
+	} 
+
+	public void removeDocumento(Documento documento) {
+		documento.setHost(null);
+		documentos.remove(documento);
+	}
 }

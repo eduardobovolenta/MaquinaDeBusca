@@ -78,24 +78,24 @@ public class TermoDocumento implements Serializable {
         this.indiceInvertido = indiceInvertido;
     }
 
-    public void inserirEntradaIndiceInvertido(Documento documento, int frequencia) {
-        IndiceInvertido entradaIndiceInvertido = new IndiceInvertido(this, documento, frequencia); // Cria uma nova entrada para o índice invertido com o termo corrente, o documento informado como parâmetro e a frequencia do termo no documento.
-        this.indiceInvertido.add(entradaIndiceInvertido); // Insere a nova entrada no índice invertido do termo corrente.
-        documento.getIndiceInvertido().add(entradaIndiceInvertido); // Insere a nova entrada no índice invertido do documento que foi informado como parâmetro.
-    }
-
-    public void removeDocumento(Documento documento) {
-        Iterator<IndiceInvertido> iterator = this.indiceInvertido.iterator();
-        while (iterator.hasNext()) {
-            IndiceInvertido entradaIndiceInvertido = iterator.next();
-            if (entradaIndiceInvertido.getTermo().equals(this) && entradaIndiceInvertido.getDocumento().equals(documento)) {
-                iterator.remove(); // Remoção no Banco de Dados a partir da tabela TermoDocumento.
-                entradaIndiceInvertido.getDocumento().getIndiceInvertido().remove(entradaIndiceInvertido); // Remoção no Banco de Dados a partir da tabela Documento.
-                entradaIndiceInvertido.setDocumento(null); // Remoção na memória RAM.
-                entradaIndiceInvertido.setTermo(null); // Remoção na memória RAM.
-            }
-        }
-    }
+//    public void inserirEntradaIndiceInvertido(Documento documento, int frequencia) {
+//        IndiceInvertido entradaIndiceInvertido = new IndiceInvertido(this, documento, frequencia); // Cria uma nova entrada para o índice invertido com o termo corrente, o documento informado como parâmetro e a frequencia do termo no documento.
+//        this.indiceInvertido.add(entradaIndiceInvertido); // Insere a nova entrada no índice invertido do termo corrente.
+//        documento.getIndiceInvertido().add(entradaIndiceInvertido); // Insere a nova entrada no índice invertido do documento que foi informado como parâmetro.
+//    }
+//
+//    public void removeDocumento(Documento documento) {
+//        Iterator<IndiceInvertido> iterator = this.indiceInvertido.iterator();
+//        while (iterator.hasNext()) {
+//            IndiceInvertido entradaIndiceInvertido = iterator.next();
+//            if (entradaIndiceInvertido.getTermo().equals(this) && entradaIndiceInvertido.getDocumento().equals(documento)) {
+//                iterator.remove(); // Remoção no Banco de Dados a partir da tabela TermoDocumento.
+//                entradaIndiceInvertido.getDocumento().getIndiceInvertido().remove(entradaIndiceInvertido); // Remoção no Banco de Dados a partir da tabela Documento.
+//                entradaIndiceInvertido.setDocumento(null); // Remoção na memória RAM.
+//                entradaIndiceInvertido.setTermo(null); // Remoção na memória RAM.
+//            }
+//        }
+//    }
 
     public void setFrequencia(int frequencia, Documento documento) {
         Iterator<IndiceInvertido> iterator = this.indiceInvertido.iterator();
@@ -108,16 +108,16 @@ public class TermoDocumento implements Serializable {
         }
     }
 
-    public void setFrequenciaNormalizada(Documento documento) {
-        Iterator<IndiceInvertido> iterator = this.indiceInvertido.iterator();
-        while (iterator.hasNext()) {
-            IndiceInvertido entradaIndiceInvertido = iterator.next();
-            if (entradaIndiceInvertido.getTermo().equals(this) && entradaIndiceInvertido.getDocumento().equals(documento)) {
-                entradaIndiceInvertido.setFrequenciaNormalizada(entradaIndiceInvertido.getFrequencia() / documento.getFrequenciaMaxima());
-                break;
-            }
-        }
-    }
+//    public void setFrequenciaNormalizada(Documento documento) {
+//        Iterator<IndiceInvertido> iterator = this.indiceInvertido.iterator();
+//        while (iterator.hasNext()) {
+//            IndiceInvertido entradaIndiceInvertido = iterator.next();
+//            if (entradaIndiceInvertido.getTermo().equals(this) && entradaIndiceInvertido.getDocumento().equals(documento)) {
+//                entradaIndiceInvertido.setFrequenciaNormalizada(entradaIndiceInvertido.getFrequencia() / documento.getFrequenciaMaxima());
+//                break;
+//            }
+//        }
+//    }
 
     public void setPeso(double peso, Documento documento) {
         Iterator<IndiceInvertido> iterator = this.indiceInvertido.iterator();

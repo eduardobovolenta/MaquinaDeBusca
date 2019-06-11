@@ -32,15 +32,14 @@ public class Usuario_Controller {
 	@Autowired
 	UsuarioService usuarioService;
 
-	private static final String HEADER_STRING = "Authorization";
+	//private static final String TOKEN = "Authorization";
 
 	@PostMapping(value = "/usuario")
-	// @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	public ResponseEntity<Object> inserirUser(@RequestBody @Valid Usuario user, BindingResult resultado,
 			HttpServletRequest request) {
 		ResponseEntity<Object> resposta = null;
 		try {
-			String token = request.getHeader(HEADER_STRING);
 			if (resultado.hasErrors()) {
 				resposta = new ResponseEntity(new Mensagem("erro", "Dados informados errados."),
 						HttpStatus.INTERNAL_SERVER_ERROR);
@@ -49,7 +48,7 @@ public class Usuario_Controller {
 // 						new Mensagem("erro", "Sem permissão para executar esta ação."),
 // 						HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 			} else {
-				// user = usuarioService.criarUsuario(user);
+				user = usuarioService.cadastrarUsuario(user);
 				if ((user != null) && (user.getId() > 0)) {
 					resposta = new ResponseEntity<Object>(user, HttpStatus.OK);
 				} else {
