@@ -20,11 +20,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 
 @Entity
+@Table(name = "Link")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") 
 public class LinkModel implements Serializable {
 
@@ -45,8 +47,8 @@ public class LinkModel implements Serializable {
 	private boolean podeColetar;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "documento_id")
-	private DocumentoModel documento; 
+	@JoinColumn(name = "documentoId")
+	private DocumentoModel documentoId; 
 	
 	public LinkModel() {
 		this.podeColetar = true;
@@ -55,7 +57,7 @@ public class LinkModel implements Serializable {
 	public LinkModel(String url, DocumentoModel documento) {
 		this.url = url;
 		this.ultimaColeta = null;
-		this.documento = documento;
+		this.documentoId = documento;
 		this.podeColetar = true;
 	}
 
@@ -92,11 +94,11 @@ public class LinkModel implements Serializable {
 	}
 
 	public DocumentoModel getDocumento() {
-		return documento;
+		return documentoId;
 	}
 
 	public void setDocumento(DocumentoModel documento) {
-		this.documento = documento;
+		this.documentoId = documento;
 	}
 
 	@Override

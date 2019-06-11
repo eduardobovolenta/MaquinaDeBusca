@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -27,6 +28,7 @@ import javax.persistence.Lob;
 import javax.validation.constraints.NotBlank;
 
 @Entity
+@Table(name = "Documento")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class DocumentoModel implements Serializable {
 
@@ -52,23 +54,19 @@ public class DocumentoModel implements Serializable {
 
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "host_id")
-	private HostModel host;
+	@JoinColumn(name = "hostId")
+	private HostModel hostId;
 
 	@NotBlank
 	@Column(nullable = false, length = 200)
 	private String titulo;
 
-	@OneToMany(mappedBy = "documento", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	@OneToMany(mappedBy = "documentoId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private Set<LinkModel> links;
 	
-	@OneToMany(
-            mappedBy = "documentoId", // Nome do atributo na classe IndiceInvertido.
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            orphanRemoval = true
-    )
-    private List<IndiceInvertidoModel> indiceInvertido;
+	@OneToMany(mappedBy = "documento", // Nome do atributo na classe IndiceInvertido.
+			cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	private List<IndiceInvertidoModel> indiceInvertido;
 	
 	private double frequenciaMaxima;
 
@@ -80,7 +78,7 @@ public class DocumentoModel implements Serializable {
 		this.visao = visao;
 		this.titulo = titulo;
 		this.links = new HashSet();
-		this.indiceInvertido = new LinkedList();
+		//this.indiceInvertido = new LinkedList();
 	}
 
 	public String getTitulo() {
@@ -146,11 +144,11 @@ public class DocumentoModel implements Serializable {
 	}
 
 	public HostModel getHost() {
-		return host;
+		return hostId;
 	}
 
 	public void setHost(HostModel host) {
-		this.host = host;
+		this.hostId = host;
 	}
 
 	@Override

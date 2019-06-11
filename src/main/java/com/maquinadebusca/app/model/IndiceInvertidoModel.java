@@ -9,8 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "IndiceInvertido")
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
@@ -34,20 +36,20 @@ public class IndiceInvertidoModel implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("idDocumento")
-    private DocumentoModel documentoId;
+    private DocumentoModel documento;
 
     public IndiceInvertidoModel() {
     }
 
     public IndiceInvertidoModel(TermoDocumentoModel termo, DocumentoModel documento) {
         this.termo = termo;
-        this.documentoId = documento;
+        this.documento = documento;
         this.id = new IdIndiceInvertidoModel(termo.getId(), documento.getId());
     }
 
     public IndiceInvertidoModel(TermoDocumentoModel termo, DocumentoModel documento, int frequencia) {
         this.termo = termo;
-        this.documentoId = documento;
+        this.documento = documento;
         this.frequencia = frequencia;
         this.id = new IdIndiceInvertidoModel(termo.getId(), documento.getId());
     }
@@ -93,11 +95,11 @@ public class IndiceInvertidoModel implements Serializable {
     }
 
     public DocumentoModel getDocumento() {
-        return documentoId;
+        return documento;
     }
 
     public void setDocumento(DocumentoModel documento) {
-        this.documentoId = documento;
+        this.documento = documento;
     }
 
     @Override

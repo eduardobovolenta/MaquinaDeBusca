@@ -28,7 +28,7 @@ public class ProcessadorConsultaController {
     if (!consulta.getRanking ().isEmpty ()) {
       resp = new ResponseEntity (consulta, HttpStatus.OK);
     } else {
-      resp = new ResponseEntity (new Mensagem ("erro", "o índice invertido não pode ser criado"), HttpStatus.INTERNAL_SERVER_ERROR);
+      resp = new ResponseEntity (new Mensagem ("erro", "Erro ao realizar consulta"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
     return resp;
   }

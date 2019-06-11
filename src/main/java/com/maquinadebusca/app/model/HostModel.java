@@ -14,10 +14,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 
 @Entity
+@Table(name = "Host")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class HostModel implements Serializable {
 
@@ -36,7 +38,7 @@ public class HostModel implements Serializable {
 	 
 	private int qtdPaginas;
 	
-	@OneToMany(mappedBy = "host", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	@OneToMany(mappedBy = "hostId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private Set<DocumentoModel> documentos;
 
 	public HostModel(Long id, String host, Integer qtdPaginas, Set<LinkModel> links) {

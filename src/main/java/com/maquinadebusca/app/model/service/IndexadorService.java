@@ -90,10 +90,31 @@ public class IndexadorService {
   public List<DocumentoModel> getDocumentos () {
     DocumentoModel documento;
     List<DocumentoModel> documentos = new LinkedList ();
-    
-    documentos = dr.findAll();
 
-    return documentos;
+	documento = new DocumentoModel();
+	documento.setUrl("www.1.com.br");
+	documento.setTexto("to do is to be to be is to do");
+	documento.setVisao("to do is to be to be is to do");
+	documentos.add(documento);
+
+	documento = new DocumentoModel();
+	documento.setUrl("www.2.com.br");
+	documento.setTexto("to be or not to be i am what i am");
+	documento.setVisao("to be or not to be i am what i am");
+	documentos.add(documento);
+
+	documento = new DocumentoModel();
+	documento.setUrl("www.3.com.br");
+	documento.setTexto("i think therefore i am do be do be do");
+	documento.setVisao("i think therefore i am do be do be do");
+	documentos.add(documento);
+	documento = new DocumentoModel();
+	documento.setUrl("www.4.com.br");
+	documento.setTexto("do do do da da da let it be let it be");
+	documento.setVisao("do do do da da da let it be let it be");
+	documentos.add(documento);
+
+	return documentos;
   }
 
 }
