@@ -7,3 +7,6 @@ Maquina de busca implementada com Spring Boot JAVA
 
 ## Instalação
 Antes de incializar, é necessário que servidor de banco de dados esteja ativo e exista o banco "maquinadebusca".
+
+## Swagger
+Swagger se localiza no link "localhost:8082/maquina-de-busca/swagger-ui.html/"
